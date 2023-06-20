@@ -18,6 +18,7 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import br.com.rony.ecommerce.application.exception_handler.ProblemDetails.ValidationError;
+import br.com.rony.ecommerce.domain.exceptions.BusinessDataBaseConstraintException;
 import br.com.rony.ecommerce.domain.exceptions.BusinessEntityNotFoundException;
 
 @RestControllerAdvice
@@ -30,6 +31,14 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 	public ResponseEntity<Object> handleNotFound(Exception e, WebRequest request) {
 		HttpStatus status = HttpStatus.NOT_FOUND; 
 		String userMessage = "One of the resources needed for your request wasn't found.";		
+		var problemDetails = buildProblemDetails(e.getMessage(),userMessage, status.value());
+		return handleExceptionInternal(e, problemDetails, new HttpHeaders(), status, request);
+	}
+	
+	@ExceptionHandler({BusinessDataBaseConstraintException.class})
+	public ResponseEntity<Object> handleBusinessDataBaseConstraintException(Exception e, WebRequest request) {
+		HttpStatus status = HttpStatus.BAD_REQUEST; 
+		String userMessage = "The provided information of one child resource was not found.";		
 		var problemDetails = buildProblemDetails(e.getMessage(),userMessage, status.value());
 		return handleExceptionInternal(e, problemDetails, new HttpHeaders(), status, request);
 	}
