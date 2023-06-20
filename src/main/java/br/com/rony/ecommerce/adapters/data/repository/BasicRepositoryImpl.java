@@ -3,6 +3,7 @@ package br.com.rony.ecommerce.adapters.data.repository;
 import br.com.rony.ecommerce.data.repository.BasicRepository;
 import br.com.rony.ecommerce.domain.exceptions.BusinessDataBaseConstraintException;
 import br.com.rony.ecommerce.domain.exceptions.BusinessEntityNotFoundException;
+import br.com.rony.ecommerce.domain.exceptions.BusinessNameShouldBeUniqueException;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceException;
 import jakarta.transaction.Transactional;
@@ -22,6 +23,9 @@ public abstract class BasicRepositoryImpl<Entity, ID> implements BasicRepository
 			entityManager.flush();
 			return mergedEntity;
 		} catch (PersistenceException e) {
+			if(e.getMessage().toLowerCase().contains("duplicate")) {
+				throw new BusinessNameShouldBeUniqueException(getEntityClass().getSimpleName()+ " " +e.getMessage());
+			}
 			throw new BusinessDataBaseConstraintException(getEntityClass().getSimpleName()+ " " +e.getMessage());
 		}
 	}

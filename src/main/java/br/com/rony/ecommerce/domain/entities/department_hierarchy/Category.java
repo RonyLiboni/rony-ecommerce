@@ -8,4 +8,8 @@ public interface Category {
 
 	void setName(String name);
 
+	SubDepartment getSubDepartment();
+
+	void setSubDepartment(SubDepartment subDepartment);
+
 }

@@ -20,6 +20,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 import br.com.rony.ecommerce.application.exception_handler.ProblemDetails.ValidationError;
 import br.com.rony.ecommerce.domain.exceptions.BusinessDataBaseConstraintException;
 import br.com.rony.ecommerce.domain.exceptions.BusinessEntityNotFoundException;
+import br.com.rony.ecommerce.domain.exceptions.BusinessNameShouldBeUniqueException;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
@@ -39,6 +40,14 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 	public ResponseEntity<Object> handleBusinessDataBaseConstraintException(Exception e, WebRequest request) {
 		HttpStatus status = HttpStatus.BAD_REQUEST; 
 		String userMessage = "The provided information of one child resource was not found.";		
+		var problemDetails = buildProblemDetails(e.getMessage(),userMessage, status.value());
+		return handleExceptionInternal(e, problemDetails, new HttpHeaders(), status, request);
+	}
+	
+	@ExceptionHandler({BusinessNameShouldBeUniqueException.class})
+	public ResponseEntity<Object> handleBusinessNameShouldBeUniqueException(Exception e, WebRequest request) {
+		HttpStatus status = HttpStatus.BAD_REQUEST; 
+		String userMessage = "The name you informed is not unique.";		
 		var problemDetails = buildProblemDetails(e.getMessage(),userMessage, status.value());
 		return handleExceptionInternal(e, problemDetails, new HttpHeaders(), status, request);
 	}

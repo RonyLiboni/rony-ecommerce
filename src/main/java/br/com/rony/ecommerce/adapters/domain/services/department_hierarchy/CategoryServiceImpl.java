@@ -29,6 +29,7 @@ public class CategoryServiceImpl implements CategoryService {
 	public void updateBy(Long id, Category form) {
 		Category categoryToUpdate = categoryRepository.findBy(id);
 		categoryToUpdate.setName(form.getName());
+		categoryToUpdate.setSubDepartment(form.getSubDepartment());
 		saveOrUpdate(categoryToUpdate);
 	}
 	
