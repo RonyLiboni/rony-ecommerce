@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
+import br.com.rony.ecommerce.adapters.data.repository.BasicRepositoryImpl;
 import br.com.rony.ecommerce.adapters.domain.entities.department_hierarchy.DepartmentImpl;
 import br.com.rony.ecommerce.data.repository.department_hierarchy.DepartmentRepository;
 import br.com.rony.ecommerce.domain.entities.department_hierarchy.Department;

@@ -2,6 +2,7 @@ package br.com.rony.ecommerce.adapters.data.repository.department_hierarchy;
 
 import org.springframework.stereotype.Repository;
 
+import br.com.rony.ecommerce.adapters.data.repository.BasicRepositoryImpl;
 import br.com.rony.ecommerce.adapters.domain.entities.department_hierarchy.SubDepartmentImpl;
 import br.com.rony.ecommerce.data.repository.department_hierarchy.SubDepartmentRepository;
 import br.com.rony.ecommerce.domain.entities.department_hierarchy.SubDepartment;

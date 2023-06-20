@@ -1,6 +1,6 @@
-package br.com.rony.ecommerce.adapters.data.repository.department_hierarchy;
+package br.com.rony.ecommerce.adapters.data.repository;
 
-import br.com.rony.ecommerce.data.repository.department_hierarchy.BasicRepository;
+import br.com.rony.ecommerce.data.repository.BasicRepository;
 import br.com.rony.ecommerce.domain.exceptions.BusinessDataBaseConstraintException;
 import br.com.rony.ecommerce.domain.exceptions.BusinessEntityNotFoundException;
 import jakarta.persistence.EntityManager;

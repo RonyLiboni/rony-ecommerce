@@ -29,7 +29,6 @@ public class SubDepartmentServiceImpl implements SubDepartmentService {
 	public void updateBy(Long id, SubDepartment form) {
 		SubDepartment subDepartmentToUpdate = subDepartmentRepository.findBy(id);
 		subDepartmentToUpdate.setName(form.getName());
-		subDepartmentToUpdate.setDepartment(form.getDepartment());
 		saveOrUpdate(subDepartmentToUpdate);
 	}
 	

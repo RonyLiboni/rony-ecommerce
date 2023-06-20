@@ -1,4 +1,4 @@
-package br.com.rony.ecommerce.data.repository.department_hierarchy;
+package br.com.rony.ecommerce.data.repository;
 
 public interface BasicRepository<Entity, ID> {
 
