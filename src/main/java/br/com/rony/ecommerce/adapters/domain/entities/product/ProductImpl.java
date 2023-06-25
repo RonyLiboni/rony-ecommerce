@@ -43,8 +43,7 @@ public class ProductImpl extends EntityWithNameAndLongId implements Product {
 	}
 	
 	@ElementCollection(fetch = FetchType.LAZY, targetClass = Image.class)
-    @CollectionTable(name = "Product_Images")
-	@JoinColumn(name = "product_id")
+    @CollectionTable(name = "Product_Images", joinColumns = @JoinColumn(name = "product_id"))
 	public List<Image> getImages() {
 		return images;
 	}
