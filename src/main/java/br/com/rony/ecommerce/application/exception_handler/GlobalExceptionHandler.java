@@ -19,6 +19,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 import br.com.rony.ecommerce.application.exception_handler.ProblemDetails.ValidationError;
 import br.com.rony.ecommerce.domain.exceptions.BusinessDataBaseConstraintException;
+import br.com.rony.ecommerce.domain.exceptions.BusinessDataTruncationException;
 import br.com.rony.ecommerce.domain.exceptions.BusinessEntityNotFoundException;
 import br.com.rony.ecommerce.domain.exceptions.BusinessNameShouldBeUniqueException;
 
@@ -48,6 +49,14 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 	public ResponseEntity<Object> handleBusinessNameShouldBeUniqueException(Exception e, WebRequest request) {
 		HttpStatus status = HttpStatus.BAD_REQUEST; 
 		String userMessage = "The name you informed is not unique.";		
+		var problemDetails = buildProblemDetails(e.getMessage(),userMessage, status.value());
+		return handleExceptionInternal(e, problemDetails, new HttpHeaders(), status, request);
+	}
+	
+	@ExceptionHandler({BusinessDataTruncationException.class})
+	public ResponseEntity<Object> handleBusinessDataTruncationException(Exception e, WebRequest request) {
+		HttpStatus status = HttpStatus.BAD_REQUEST; 
+		String userMessage = "You informed one or more invalid arguments.";		
 		var problemDetails = buildProblemDetails(e.getMessage(),userMessage, status.value());
 		return handleExceptionInternal(e, problemDetails, new HttpHeaders(), status, request);
 	}
