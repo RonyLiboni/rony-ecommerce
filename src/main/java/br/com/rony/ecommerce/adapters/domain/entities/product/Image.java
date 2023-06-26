@@ -2,6 +2,7 @@ package br.com.rony.ecommerce.adapters.domain.entities.product;
 
 import java.util.Objects;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 
 @Embeddable
@@ -11,18 +12,23 @@ public class Image {
 	private String url;
 	private Integer imageOrder;
 	
+	@Column(name = "`key`")
 	public String getKey() {
 		return key;
 	}
 	public void setKey(String key) {
 		this.key = key;
 	}
+
+	@Column(name = "url")
 	public String getUrl() {
 		return url;
 	}
 	public void setUrl(String url) {
 		this.url = url;
 	}
+	
+	@Column(name = "image_order")
 	public Integer getImageOrder() {
 		return imageOrder;
 	}

@@ -4,6 +4,7 @@ public class ImageDTO {
 
 	private String url;
 	private Integer imageOrder;
+	private String key;
 	
 	public String getUrl() {
 		return url;
@@ -16,6 +17,12 @@ public class ImageDTO {
 	}
 	public void setImageOrder(Integer imageOrder) {
 		this.imageOrder = imageOrder;
+	}
+	public String getKey() {
+		return key;
+	}
+	public void setKey(String key) {
+		this.key = key;
 	}
 	
 }
