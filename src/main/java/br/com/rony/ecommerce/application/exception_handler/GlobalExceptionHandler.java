@@ -19,8 +19,10 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 import br.com.rony.ecommerce.application.exception_handler.ProblemDetails.ValidationError;
 import br.com.rony.ecommerce.domain.exceptions.BusinessDataBaseConstraintException;
+import br.com.rony.ecommerce.domain.exceptions.BusinessDataTruncationException;
 import br.com.rony.ecommerce.domain.exceptions.BusinessEntityNotFoundException;
 import br.com.rony.ecommerce.domain.exceptions.BusinessNameShouldBeUniqueException;
+import br.com.rony.ecommerce.infrastructure.storage.StorageException;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
@@ -31,7 +33,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 	@ExceptionHandler({BusinessEntityNotFoundException.class})
 	public ResponseEntity<Object> handleNotFound(Exception e, WebRequest request) {
 		HttpStatus status = HttpStatus.NOT_FOUND; 
-		String userMessage = "One of the resources needed for your request wasn't found.";		
+		String userMessage = "One or more of the resources needed for your request wasn't found.";		
 		var problemDetails = buildProblemDetails(e.getMessage(),userMessage, status.value());
 		return handleExceptionInternal(e, problemDetails, new HttpHeaders(), status, request);
 	}
@@ -49,6 +51,22 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 		HttpStatus status = HttpStatus.BAD_REQUEST; 
 		String userMessage = "The name you informed is not unique.";		
 		var problemDetails = buildProblemDetails(e.getMessage(),userMessage, status.value());
+		return handleExceptionInternal(e, problemDetails, new HttpHeaders(), status, request);
+	}
+	
+	@ExceptionHandler({BusinessDataTruncationException.class})
+	public ResponseEntity<Object> handleBusinessDataTruncationException(Exception e, WebRequest request) {
+		HttpStatus status = HttpStatus.BAD_REQUEST; 
+		String userMessage = "You informed one or more invalid arguments.";		
+		var problemDetails = buildProblemDetails(e.getMessage(),userMessage, status.value());
+		return handleExceptionInternal(e, problemDetails, new HttpHeaders(), status, request);
+	}
+	
+	@ExceptionHandler({StorageException.class})
+	public ResponseEntity<Object> handleStorageException(Exception e, WebRequest request) {
+		HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR; 
+		String userMessage = e.getMessage();		
+		var problemDetails = buildProblemDetails(e.getCause().getMessage(),userMessage, status.value());
 		return handleExceptionInternal(e, problemDetails, new HttpHeaders(), status, request);
 	}
 	

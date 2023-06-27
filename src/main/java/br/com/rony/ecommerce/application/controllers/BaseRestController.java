@@ -25,6 +25,10 @@ public abstract class BaseRestController {
 		return ResponseEntity.ok().build();
 	}
 	
+	 public <T> ResponseEntity<T> ok(T body) {
+	        return ResponseEntity.ok(body);
+	  }
+	
 	protected ResponseEntity<Void> noContent(){
 		return ResponseEntity.noContent().location(buildLocation()).build();
 	}

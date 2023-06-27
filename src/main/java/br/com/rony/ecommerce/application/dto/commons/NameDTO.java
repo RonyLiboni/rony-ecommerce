@@ -1,13 +1,12 @@
 package br.com.rony.ecommerce.application.dto.commons;
 
-import org.hibernate.validator.constraints.Length;
-
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 public abstract class NameDTO {
 	
 	@NotBlank
-	@Length(min = 2, max = 50)
+	@Size(min = 2, max = 150)
 	private String name;
 
 	public String getName() {
