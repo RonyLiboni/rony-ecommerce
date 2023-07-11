@@ -23,7 +23,7 @@ public class ProductImageServiceImpl implements ProductImageService {
 	@Override
 	public Image addImageIn(Long productId, MultipartFile imageToAdd, Integer imageOrder) {
 		Product product = productRepository.findBy(productId);
-		String key = UUID.randomUUID().toString();
+		String key = product.getSku() + "_" + UUID.randomUUID().toString();
 		product.addNewImage(key, imageOrder, imageStorageService.uploadImage(imageToAdd, key));
 		productRepository.saveOrMerge(product);
 		return product.getImageByKey(key);
