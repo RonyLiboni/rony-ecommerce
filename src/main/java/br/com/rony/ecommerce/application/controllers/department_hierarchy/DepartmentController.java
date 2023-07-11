@@ -36,10 +36,10 @@ public class DepartmentController extends BaseRestController {
 	public ResponseEntity<Void> create(@RequestBody @Valid final DepartmentFormDTO form){
 		return created(departmentService.create(departmentMapper.toEntity(form)).toString());
 	}
-	
-	@GetMapping(DEPARTMENT_URI + "/{id}")
-	public ResponseEntity<DepartmentDTO> findById(@PathVariable Long id){
-		return ResponseEntity.ok(departmentMapper.toDepartmentDTO(departmentService.findByIdWithAllRelatedDataLoaded(id)));
+		
+	@GetMapping(DEPARTMENT_URI + "/{name}")
+	public ResponseEntity<DepartmentDTO> findByName(@PathVariable String name){
+		return ResponseEntity.ok(departmentMapper.toDepartmentDTO(departmentService.findByNameWithAllRelatedDataLoaded(name)));
 	}
 	
 	@GetMapping(DEPARTMENT_URI)

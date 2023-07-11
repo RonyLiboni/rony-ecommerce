@@ -9,6 +9,6 @@ public interface DepartmentRepository extends BasicRepository<Department, Long>{
 
 	List<Department> findAll();
 
-	Department findByIdWithAllRelatedDataLoaded(Long id);
+	Department findByNameWithAllRelatedDataLoaded(String name);
 
 }

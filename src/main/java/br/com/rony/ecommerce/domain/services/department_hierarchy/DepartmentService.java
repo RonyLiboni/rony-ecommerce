@@ -13,6 +13,6 @@ public interface DepartmentService {
 
 	void updateBy(Long id, Department department);
 
-	Department findByIdWithAllRelatedDataLoaded(Long id);
+	Department findByNameWithAllRelatedDataLoaded(String name);
 
 }

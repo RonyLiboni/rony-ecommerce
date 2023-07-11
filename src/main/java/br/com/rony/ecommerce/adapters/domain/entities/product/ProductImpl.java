@@ -2,7 +2,6 @@ package br.com.rony.ecommerce.adapters.domain.entities.product;
 
 import java.math.BigDecimal;
 import java.util.List;
-
 import br.com.rony.ecommerce.adapters.domain.entities.commons.EntityWithNameAndLongId;
 import br.com.rony.ecommerce.adapters.domain.entities.department_hierarchy.CategoryImpl;
 import br.com.rony.ecommerce.domain.entities.Product.Product;
