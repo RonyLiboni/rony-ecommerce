@@ -15,8 +15,8 @@ spring:
       enabled: true
       max-file-size: 5MB
       max-request-size: 5MB        
-storage:
-    bucket: rony-ecommerce-bucket
-    region: us-east-1
+storage: #if any of the bellow fields is null or empty storage will be local and not in AWS
+    bucket: rony-ecommerce-bucket # you need to create a bucket with that name or change to the name you created
+    region: us-east-1 # your bucket need to be in that region 
     access-key-id: # add your AWS credentials here
     secret-access-key: # add your AWS credentials here

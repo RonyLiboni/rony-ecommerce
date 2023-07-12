@@ -31,14 +31,14 @@ public class DepartmentRepositoryImpl extends BasicRepositoryImpl<Department,Lon
 	}
 	
 	@Override
-	public Department findByIdWithAllRelatedDataLoaded(Long id) {	
+	public Department findByNameWithAllRelatedDataLoaded(String name) {	
 		try {
 			return getEntityManager()
-							.createQuery(FIND_AND_LOAD_ALL_RELATED_DATA+ " WHERE d.id = :id", getEntityClass())
-							.setParameter("id", id)
+							.createQuery(FIND_AND_LOAD_ALL_RELATED_DATA+ " WHERE d.name = :name", getEntityClass())
+							.setParameter("name", name)
 							.getSingleResult();
 		} catch (NoResultException e) {
-			throw new BusinessEntityNotFoundException(String.format(getEntityClass().getSimpleName().replace("Impl", "")+" with id=%s not found.", id));
+			throw new BusinessEntityNotFoundException(String.format(getEntityClass().getSimpleName().replace("Impl", "")+" with name=%s not found.", name));
 		}
 	}
 	

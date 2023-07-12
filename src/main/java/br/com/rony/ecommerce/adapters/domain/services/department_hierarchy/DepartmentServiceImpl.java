@@ -25,11 +25,6 @@ public class DepartmentServiceImpl implements DepartmentService {
 	}
 
 	@Override
-	public Department findByIdWithAllRelatedDataLoaded(Long id) {
-		return departmentRepository.findByIdWithAllRelatedDataLoaded(id);
-	}
-
-	@Override
 	public List<Department> findAll() {
 		return departmentRepository.findAll();
 	}
@@ -44,6 +39,11 @@ public class DepartmentServiceImpl implements DepartmentService {
 	@Override
 	public Department findBy(Long id) {
 		return departmentRepository.findBy(id);
+	}
+
+	@Override
+	public Department findByNameWithAllRelatedDataLoaded(String name) {
+		return departmentRepository.findByNameWithAllRelatedDataLoaded(name);
 	}
 	
 }
