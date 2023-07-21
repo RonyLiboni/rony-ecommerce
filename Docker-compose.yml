@@ -11,7 +11,7 @@ services:
     restart: always 
     
     healthcheck: 
-      test: "curl --fail http://mysql-db:3306/ || exit 1" 
+      test: "curl --fail http://rony-commerce-mysql:3306/ || exit 1" 
       timeout: 5s 
       retries: 10  
     deploy:
@@ -22,7 +22,7 @@ services:
        - db_data:/var/lib/mysql
       
   app:
-    image: rony-commerce-java
+    image: ronaldliboni/rony-commerce-java
     container_name: rony-commerce-java
     depends_on:
       mysql-db:
