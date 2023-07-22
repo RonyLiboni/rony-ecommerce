@@ -14,6 +14,7 @@ What will you see in the project?
   - Hibernate
   - MySql
   - Docker
+  - REST Constraints
   - SOLID principles
   - DDD principles
 
@@ -32,5 +33,6 @@ O que você verá no projeto?
   - Hibernate
   - MySql
   - Docker
+  - Principios REST
   - Principios do SOLID
   - Principios de DDD
