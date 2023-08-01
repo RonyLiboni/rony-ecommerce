@@ -1,5 +1,7 @@
 package br.com.rony.ecommerce.adapters.domain.services.product;
 
+import java.util.Collection;
+
 import org.springframework.stereotype.Service;
 
 import br.com.rony.ecommerce.data.repository.product.ProductRepository;
@@ -43,6 +45,16 @@ public class ProductServiceImpl implements ProductService {
 	@Override
 	public Product findBy(Long id) {
 		return productRepository.findBy(id);
+	}
+
+	@Override
+	public Long findProductsBySkuTotalCount(String sku) {
+		return productRepository.findProductsBySkuTotalCount(sku);
+	}
+
+	@Override
+	public Collection<Product> findProductsBySku(String sku, String sort, Integer pageNumber, Integer pageSize) {
+		return productRepository.findProductsBySku(sku, sort, pageNumber, pageSize);
 	}
 
 }

@@ -1,5 +1,7 @@
 package br.com.rony.ecommerce.adapters.data.repository.product;
 
+import java.util.Collection;
+
 import org.springframework.stereotype.Repository;
 import br.com.rony.ecommerce.adapters.data.repository.BasicRepositoryImpl;
 import br.com.rony.ecommerce.adapters.domain.entities.product.ProductImpl;
@@ -36,6 +38,28 @@ public class ProductRepositoryImpl extends BasicRepositoryImpl<Product, Long> im
 	@Override
 	protected Class<? extends Product> getEntityClass() {
 		return ProductImpl.class;
+	}
+
+	@Override
+	public Long findProductsBySkuTotalCount(String sku) {
+		String query = "SELECT COUNT(1) FROM ProductImpl p WHERE p.sku LIKE :sku";
+		return getEntityManager().createQuery(query, Long.class)
+								 .setParameter("sku", addLikeOperator(sku))
+								 .getSingleResult();
+	}
+
+	private String addLikeOperator(String field) {
+		return "%" + field + "%";
+	}
+
+	@Override
+	public Collection<Product> findProductsBySku(String sku, String sort, Integer pageNumber, Integer pageSize) {
+		String query = "SELECT p FROM ProductImpl p LEFT JOIN FETCH p.images pi WHERE p.sku LIKE :sku ORDER BY p.sku " + sort;
+		return getEntityManager().createQuery(query, Product.class)
+								 .setParameter("sku", addLikeOperator(sku))
+								 .setFirstResult((pageNumber - 1) * pageSize)
+								 .setMaxResults(pageSize)
+								 .getResultList();
 	}
 
 }
