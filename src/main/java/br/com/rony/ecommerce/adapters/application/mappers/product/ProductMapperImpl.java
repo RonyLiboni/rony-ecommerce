@@ -1,10 +1,11 @@
 package br.com.rony.ecommerce.adapters.application.mappers.product;
 
+import java.util.Collection;
 import org.springframework.stereotype.Component;
-
 import br.com.rony.ecommerce.adapters.application.mappers.AbstractMapper;
 import br.com.rony.ecommerce.adapters.domain.entities.department_hierarchy.CategoryImpl;
 import br.com.rony.ecommerce.adapters.domain.entities.product.ProductImpl;
+import br.com.rony.ecommerce.application.dto.commons.PageResource;
 import br.com.rony.ecommerce.application.dto.product.ProductDTO;
 import br.com.rony.ecommerce.application.dto.product.ProductFormDTO;
 import br.com.rony.ecommerce.application.dto.product.ProductUpdateFormDTO;
@@ -44,6 +45,13 @@ public class ProductMapperImpl extends AbstractMapper implements ProductMapper {
 		}
 		product.setCategory(mapper().map(((ProductFormDTO) form).getCategory(), CategoryImpl.class));
 		return product;
+	}
+
+	@Override
+	public PageResource<ProductDTO> toPageResource(Collection<Product> products, Long totalCount) {
+		return new PageResource<ProductDTO>(products.stream()
+													.map(product -> toProductDTO(product))
+													.toList(), totalCount);
 	}
 
 }

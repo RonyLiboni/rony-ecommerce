@@ -6,9 +6,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
 import br.com.rony.ecommerce.application.controllers.BaseRestController;
+import br.com.rony.ecommerce.application.dto.commons.PageResource;
 import br.com.rony.ecommerce.application.dto.product.ProductDTO;
 import br.com.rony.ecommerce.application.dto.product.ProductFormDTO;
 import br.com.rony.ecommerce.application.dto.product.ProductUpdateFormDTO;
@@ -38,13 +39,21 @@ public class ProductController extends BaseRestController {
 	
 	@GetMapping(PRODUCT_URI + "/{id}")
 	public ResponseEntity<ProductDTO> findById(@PathVariable Long id){
-		return ResponseEntity.ok(productMapper.toProductDTO(productService.findByIdWithAllRelatedDataLoaded(id)));
+		return ok(productMapper.toProductDTO(productService.findByIdWithAllRelatedDataLoaded(id)));
 	}
 		
 	@PutMapping(PRODUCT_URI + "/{id}")
 	public ResponseEntity<Void> update(@PathVariable Long id, @RequestBody @Valid ProductUpdateFormDTO form){
 		productService.updateBy(id, productMapper.toEntity(form));
 		return noContent();
+	}
+	
+	@GetMapping(PRODUCT_URI)
+	public ResponseEntity<PageResource<ProductDTO>> findProducts(@RequestParam(defaultValue = "") String sku,
+			@RequestParam(defaultValue = "asc") String sort, @RequestParam(defaultValue = "1") Integer pageNumber,
+			@RequestParam(defaultValue = "10") Integer pageSize) {
+		return ok(productMapper.toPageResource(productService.findProductsBySku(sku.trim(), sort, pageNumber, pageSize),
+				  productService.findProductsBySkuTotalCount(sku.trim())));
 	}
 
 }
