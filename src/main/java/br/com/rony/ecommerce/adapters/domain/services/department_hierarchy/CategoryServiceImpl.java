@@ -1,5 +1,7 @@
 package br.com.rony.ecommerce.adapters.domain.services.department_hierarchy;
 
+import java.util.Collection;
+
 import org.springframework.stereotype.Service;
 
 import br.com.rony.ecommerce.data.repository.department_hierarchy.CategoryRepository;
@@ -31,6 +33,11 @@ public class CategoryServiceImpl implements CategoryService {
 		categoryToUpdate.setName(form.getName());
 		categoryToUpdate.setSubDepartment(form.getSubDepartment());
 		saveOrUpdate(categoryToUpdate);
+	}
+
+	@Override
+	public Collection<Category> getAll() {
+		return categoryRepository.getAll();
 	}
 	
 }
