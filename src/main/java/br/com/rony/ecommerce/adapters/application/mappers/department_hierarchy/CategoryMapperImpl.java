@@ -1,10 +1,13 @@
 package br.com.rony.ecommerce.adapters.application.mappers.department_hierarchy;
 
+import java.util.Collection;
+
 import org.springframework.stereotype.Component;
 
 import br.com.rony.ecommerce.adapters.application.mappers.AbstractMapper;
 import br.com.rony.ecommerce.adapters.domain.entities.department_hierarchy.CategoryImpl;
 import br.com.rony.ecommerce.adapters.domain.entities.department_hierarchy.SubDepartmentImpl;
+import br.com.rony.ecommerce.application.dto.department_hierarchy.CategoryDTO;
 import br.com.rony.ecommerce.application.dto.department_hierarchy.CategoryFormDTO;
 import br.com.rony.ecommerce.application.mappers.department_hierarchy.CategoryMapper;
 import br.com.rony.ecommerce.domain.entities.department_hierarchy.Category;
@@ -24,6 +27,17 @@ public class CategoryMapperImpl extends AbstractMapper implements CategoryMapper
 		var category = new CategoryImpl();
 		category.setSubDepartment(new SubDepartmentImpl());
 		return category;
+	}
+
+	@Override
+	public Collection<CategoryDTO> toListDTO(Collection<Category> categories) {
+		return categories.stream()
+						 .map(category -> toDto(category))
+						 .toList();
+	}
+
+	private CategoryDTO toDto(Category category) {
+		return mapper().map(category, CategoryDTO.class);
 	}	
 
 }

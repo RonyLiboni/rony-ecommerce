@@ -1,5 +1,7 @@
 package br.com.rony.ecommerce.adapters.data.repository.department_hierarchy;
 
+import java.util.List;
+
 import org.springframework.stereotype.Repository;
 
 import br.com.rony.ecommerce.adapters.data.repository.BasicRepositoryImpl;
@@ -18,6 +20,12 @@ public class CategoryRepositoryImpl extends BasicRepositoryImpl<Category,Long> i
 	@Override
 	protected Class<? extends Category> getEntityClass() {
 		return CategoryImpl.class;
+	}
+
+	@Override
+	public List<Category> getAll() {
+		return getEntityManager().createQuery("Select c from CategoryImpl c", Category.class)
+								 .getResultList();
 	}
 	
 }
