@@ -1,5 +1,6 @@
 package br.com.rony.ecommerce.adapters.domain.services.product;
 
+import java.math.BigDecimal;
 import java.util.Collection;
 
 import org.springframework.stereotype.Service;
@@ -55,6 +56,19 @@ public class ProductServiceImpl implements ProductService {
 	@Override
 	public Collection<Product> findProductsBySku(String sku, String sort, Integer pageNumber, Integer pageSize) {
 		return productRepository.findProductsBySku(sku, sort, pageNumber, pageSize);
+	}
+
+	@Override
+	public Collection<Product> customerSearch(String productName, String sortDirection, String sortField,
+			Integer pageNumber, Integer pageSize, BigDecimal startPrice, BigDecimal endPrice,
+			Collection<String> categoriesDTO, Collection<String> subDepartmentsDTO, Collection<String> departmentsDTO) {
+		return productRepository.customerSearch(productName.trim(), sortDirection, sortField, pageNumber, pageSize, startPrice, endPrice, categoriesDTO, subDepartmentsDTO, departmentsDTO);
+	}
+
+	@Override
+	public Long customerSearchTotalCount(String productName, BigDecimal startPrice, BigDecimal endPrice,
+			Collection<String> categoriesDTO, Collection<String> subDepartmentsDTO, Collection<String> departmentsDTO) {
+		return productRepository.customerSearchTotalCount(productName.trim(), startPrice, endPrice, categoriesDTO, subDepartmentsDTO, departmentsDTO);
 	}
 
 }
