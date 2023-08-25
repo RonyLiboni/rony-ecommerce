@@ -24,14 +24,13 @@ public class ProductController extends BaseRestController {
 	private final static String PRODUCT_URI = "/products";
 	private final ProductMapper productMapper;
 	private final ProductService productService;
-	
-	public ProductController(HttpServletRequest request, ProductMapper productMapper,
-			ProductService productService) {
+			
+	public ProductController(HttpServletRequest request, ProductMapper productMapper, ProductService productService) {
 		super(request);
 		this.productMapper = productMapper;
 		this.productService = productService;
 	}
-		
+
 	@PostMapping(PRODUCT_URI)
 	public ResponseEntity<Void> create(@RequestBody @Valid final ProductFormDTO form){
 		return created(productService.create(productMapper.toEntity(form)).toString());
@@ -55,5 +54,5 @@ public class ProductController extends BaseRestController {
 		return ok(productMapper.toPageResource(productService.findProductsBySku(sku.trim(), sort, pageNumber, pageSize),
 				  productService.findProductsBySkuTotalCount(sku.trim())));
 	}
-
+	
 }

@@ -1,8 +1,10 @@
 package br.com.rony.ecommerce.adapters.data.repository.product;
 
+import java.math.BigDecimal;
 import java.util.Collection;
 
 import org.springframework.stereotype.Repository;
+
 import br.com.rony.ecommerce.adapters.data.repository.BasicRepositoryImpl;
 import br.com.rony.ecommerce.adapters.domain.entities.product.ProductImpl;
 import br.com.rony.ecommerce.data.repository.product.ProductRepository;
@@ -48,18 +50,63 @@ public class ProductRepositoryImpl extends BasicRepositoryImpl<Product, Long> im
 								 .getSingleResult();
 	}
 
-	private String addLikeOperator(String field) {
-		return "%" + field + "%";
-	}
-
 	@Override
 	public Collection<Product> findProductsBySku(String sku, String sort, Integer pageNumber, Integer pageSize) {
 		String query = "SELECT p FROM ProductImpl p LEFT JOIN FETCH p.images pi WHERE p.sku LIKE :sku ORDER BY p.sku " + sort;
 		return getEntityManager().createQuery(query, Product.class)
 								 .setParameter("sku", addLikeOperator(sku))
-								 .setFirstResult((pageNumber - 1) * pageSize)
+								 .setFirstResult(startsAtRow(pageNumber, pageSize))
 								 .setMaxResults(pageSize)
 								 .getResultList();
+	}
+
+	@Override
+	public Collection<Product> customerSearch(String productName, String sortDirection, String sortField,
+			Integer pageNumber, Integer pageSize, BigDecimal startPrice, BigDecimal endPrice,
+			Collection<String> categoriesDTO, Collection<String> subDepartmentsDTO, Collection<String> departmentsDTO) {
+		String select = "SELECT p FROM ProductImpl p JOIN FETCH p.category c LEFT JOIN FETCH p.images pi JOIN c.subDepartment s JOIN s.department d ";
+		String where = "WHERE p.name LIKE :productName AND p.price BETWEEN :startPrice AND :endPrice ";
+		String orderBy = String.format("ORDER BY p.%s %s, pi.imageOrder ASC", sortField, sortDirection);
+		
+		if(categoriesDTO != null && !categoriesDTO.isEmpty()) {
+			where += String.format("AND c.name IN (%s) ", buildInParameters(categoriesDTO));
+		}
+		if(subDepartmentsDTO!= null && !subDepartmentsDTO.isEmpty()) {
+			where += String.format("AND s.name IN (%s) ", buildInParameters(subDepartmentsDTO));
+		}
+		if(departmentsDTO!= null && !departmentsDTO.isEmpty()) {
+			where += String.format("AND d.name IN (%s) ", buildInParameters(departmentsDTO));
+		}
+		String query = select + where + orderBy;
+		return getEntityManager().createQuery(query, Product.class)
+				.setFirstResult(startsAtRow(pageNumber, pageSize))
+				.setParameter("productName", addLikeOperator(productName.trim()))
+				.setParameter("startPrice", startPrice)
+				.setParameter("endPrice", endPrice)
+				.setMaxResults(pageSize).getResultList();
+	}
+
+	@Override
+	public Long customerSearchTotalCount(String productName, BigDecimal startPrice, BigDecimal endPrice,
+			Collection<String> categoriesDTO, Collection<String> subDepartmentsDTO, Collection<String> departmentsDTO) {
+		String select = "SELECT COUNT(1) FROM ProductImpl p JOIN p.category c JOIN c.subDepartment s JOIN s.department d ";
+		String where = "WHERE p.name LIKE :productName AND p.price BETWEEN :startPrice AND :endPrice ";
+		
+		if(categoriesDTO != null && !categoriesDTO.isEmpty()) {
+			where += String.format("AND c.name IN (%s) ", buildInParameters(categoriesDTO));
+		}
+		if(subDepartmentsDTO!= null && !subDepartmentsDTO.isEmpty()) {
+			where += String.format("AND s.name IN (%s) ", buildInParameters(subDepartmentsDTO));
+		}
+		if(departmentsDTO!= null && !departmentsDTO.isEmpty()) {
+			where += String.format("AND d.name IN (%s) ", buildInParameters(departmentsDTO));
+		}
+
+		return getEntityManager().createQuery(select + where, Long.class)
+								 .setParameter("productName", addLikeOperator(productName.trim()))
+								 .setParameter("startPrice", startPrice)
+								 .setParameter("endPrice", endPrice)
+								 .getSingleResult();
 	}
 
 }

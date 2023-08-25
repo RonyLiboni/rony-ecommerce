@@ -2,7 +2,6 @@ package br.com.rony.ecommerce.adapters.domain.entities.department_hierarchy;
 
 import java.util.Set;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-
 import br.com.rony.ecommerce.adapters.domain.entities.commons.EntityWithNameAndLongId;
 import br.com.rony.ecommerce.domain.entities.department_hierarchy.Department;
 import br.com.rony.ecommerce.domain.entities.department_hierarchy.SubDepartment;

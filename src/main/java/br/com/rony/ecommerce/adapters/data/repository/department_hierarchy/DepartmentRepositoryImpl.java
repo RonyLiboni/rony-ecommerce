@@ -1,5 +1,7 @@
 package br.com.rony.ecommerce.adapters.data.repository.department_hierarchy;
 
+import java.math.BigDecimal;
+import java.util.Collection;
 import java.util.List;
 
 import org.springframework.stereotype.Repository;
@@ -45,6 +47,30 @@ public class DepartmentRepositoryImpl extends BasicRepositoryImpl<Department,Lon
 	@Override
 	protected Class<? extends Department> getEntityClass() {
 		return DepartmentImpl.class;
+	}
+	
+	@Override
+	public List<Department> customerSearchFilter(String productName, BigDecimal startPrice, BigDecimal endPrice,
+			Collection<String> categoriesDTO, Collection<String> subDepartmentsDTO, Collection<String> departmentsDTO) {
+		String select = FIND_AND_LOAD_ALL_RELATED_DATA + "JOIN ProductImpl p ON p.category.id = c.id ";
+		String where = "WHERE p.name LIKE :productName AND p.price BETWEEN :startPrice AND :endPrice ";
+		
+		if(categoriesDTO != null && !categoriesDTO.isEmpty()) {
+			where += String.format("AND c.name IN (%s) ", buildInParameters(categoriesDTO));
+		}
+		if(subDepartmentsDTO!= null && !subDepartmentsDTO.isEmpty()) {
+			where += String.format("AND sd.name IN (%s) ", buildInParameters(subDepartmentsDTO));
+		}
+		if(departmentsDTO!= null && !departmentsDTO.isEmpty()) {
+			where += String.format("AND d.name IN (%s) ", buildInParameters(departmentsDTO));
+		}
+		String query = select + where;
+		
+		return getEntityManager().createQuery(query, Department.class)
+				.setParameter("productName", addLikeOperator(productName.trim()))
+				.setParameter("startPrice", startPrice)
+				.setParameter("endPrice", endPrice)
+				.getResultList();
 	}
 	
 }

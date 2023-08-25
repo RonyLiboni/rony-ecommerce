@@ -1,7 +1,6 @@
 package br.com.rony.ecommerce.domain.services.product;
 
 import java.util.Collection;
-
 import br.com.rony.ecommerce.domain.entities.Product.Product;
 
 public interface ProductService {
