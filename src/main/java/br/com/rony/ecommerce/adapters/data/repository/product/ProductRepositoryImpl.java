@@ -80,7 +80,7 @@ public class ProductRepositoryImpl extends BasicRepositoryImpl<Product, Long> im
 		String query = select + where + orderBy;
 		return getEntityManager().createQuery(query, Product.class)
 				.setFirstResult(startsAtRow(pageNumber, pageSize))
-				.setParameter("productName", addLikeOperator(productName))
+				.setParameter("productName", addLikeOperator(productName.trim()))
 				.setParameter("startPrice", startPrice)
 				.setParameter("endPrice", endPrice)
 				.setMaxResults(pageSize).getResultList();
@@ -103,7 +103,7 @@ public class ProductRepositoryImpl extends BasicRepositoryImpl<Product, Long> im
 		}
 
 		return getEntityManager().createQuery(select + where, Long.class)
-								 .setParameter("productName", addLikeOperator(productName))
+								 .setParameter("productName", addLikeOperator(productName.trim()))
 								 .setParameter("startPrice", startPrice)
 								 .setParameter("endPrice", endPrice)
 								 .getSingleResult();

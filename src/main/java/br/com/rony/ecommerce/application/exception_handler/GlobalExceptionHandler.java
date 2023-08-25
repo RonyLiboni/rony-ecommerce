@@ -99,8 +99,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 		    
 		    List<ProblemDetails.ValidationError> validationErrors = bindingResult.getAllErrors().stream()
 		    		.map(objectError -> {
-		    			@SuppressWarnings("null")
-						String message = getMessageSource().getMessage(objectError, LocaleContextHolder.getLocale());
+		    			String message = getMessageSource().getMessage(objectError, LocaleContextHolder.getLocale());
 		    			String name = objectError.getObjectName();
 		    			
 		    			if (objectError instanceof FieldError) {
