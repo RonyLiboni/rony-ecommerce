@@ -1,5 +1,7 @@
 package br.com.rony.ecommerce.domain.entities.department_hierarchy;
 
+import java.util.Set;
+
 public interface SubDepartment {
 
 	String getName();
@@ -11,5 +13,6 @@ public interface SubDepartment {
 	Department getDepartment();
 
 	void setDepartment(Department department);
-
+	
+	Set<Category> getCategories();
 }
